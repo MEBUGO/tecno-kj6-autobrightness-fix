@@ -1,0 +1,11 @@
+# TECNO KJ6 MediaTek Transsion Backlight Optimizations
+ro.transsion.backlight.optimization=1
+ro.transsion.backlight.level=0
+ro.vendor.transsion.backlight_hal.optimization=1
+ro.vendor.transsion.hbm_mode_hal.support=1
+ro.tran_high_brightness_mode.support=0
+ro.vendor.mtk_backlight_hwc_support=0
+ro.vendor.pq.mtk_backlight_smooth_support=0
+
+# Treble GSI Backlight Scale Fix (Transsion 4095 PWM)
+persist.sys.phh.backlight.scale=0

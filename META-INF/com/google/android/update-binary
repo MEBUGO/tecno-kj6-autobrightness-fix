@@ -1,0 +1,46 @@
+#!/sbin/sh
+#################
+# Magisk / KernelSU Module Installer Script
+#################
+OUTFD=$2
+ZIPFILE=$3
+
+ui_print() {
+    echo -e "ui_print $1\nui_print" > "/proc/self/fd/$OUTFD"
+}
+
+set_perm() {
+    local target="$1"
+    local uid="$2"
+    local gid="$3"
+    local mod="$4"
+    chown "$uid:$gid" "$target" 2>/dev/null
+    chmod "$mod" "$target" 2>/dev/null
+}
+
+TMPDIR="/tmp/kj6_installer"
+mkdir -p "$TMPDIR"
+unzip -o "$ZIPFILE" module.prop -d "$TMPDIR" >/dev/null 2>&1
+MODID=$(grep '^id=' "$TMPDIR/module.prop" | cut -d= -f2)
+
+if [ -z "$MODID" ]; then
+    MODID="kj6_auto_brightness_fix"
+fi
+
+MODPATH="/data/adb/modules/$MODID"
+mkdir -p "$MODPATH"
+unzip -o "$ZIPFILE" -d "$MODPATH" >/dev/null 2>&1
+rm -rf "$MODPATH/META-INF"
+
+if [ -f "$MODPATH/customize.sh" ]; then
+    . "$MODPATH/customize.sh"
+fi
+
+set_perm "$MODPATH/service.sh" 0 0 0755
+set_perm "$MODPATH/autobrightness.sh" 0 0 0755
+set_perm "$MODPATH/post-fs-data.sh" 0 0 0755
+set_perm "$MODPATH/config.conf" 0 0 0644
+
+ui_print "- Finished installing $MODID."
+rm -rf "$TMPDIR"
+exit 0

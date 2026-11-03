@@ -1,0 +1,6 @@
+id=kj6_auto_brightness_fix
+name=TECNO KJ6 Auto-Brightness Fix (KernelSU)
+version=v1.0
+versionCode=1
+author=MEBUGO
+description=KernelSU native hardware auto-brightness daemon (stk3335x_als), Transsion PWM scaling, and QS toggle for TECNO KJ6 (and similar MT6789 devices) on GSI.
